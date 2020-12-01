@@ -2,6 +2,7 @@ from datetime import datetime
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from discord.ext.commands import Bot as BotBase
+from discord.ext.commands import CommandNotFound
 from discord import Embed, File
 from discord import Intents
 
@@ -35,6 +36,22 @@ class Bot(BotBase):
     async def on_disconect(self):
         print('lacottick desconectado')
 
+    async def on_error(self, err, *args, **kwargs):
+        if err == 'on_command_error':
+            await args[0].send('Algo deu errado...')
+
+        else:
+            channel = self.get_channel(782303967325192234)
+            await channel.send('Um erro ocorreu durante a execução...')
+        raise
+
+    async def on_command_error(self, ctx, exc):
+        if isinstance(exc, commandNotFound):
+            pass
+        elif hasattr(exc, 'original'):
+            raise exc.original
+        else:
+            raise exc
     async def on_ready(self):
         if not self.ready:
             self.ready = True
@@ -56,7 +73,7 @@ class Bot(BotBase):
             #embed.set_image(url='')
             await channel.send(embed=embed)
 
-            #await channel.send(file=File('./data/images/icon.png'))
+            await channel.send(file=File('./data/images/icon.png'))
         else:
             print('lacottick reconectado')
 
