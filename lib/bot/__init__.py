@@ -64,17 +64,18 @@ class Bot(BotBase):
             channel = self.get_channel(782303967325192234)
             await channel.send('Estou Online!')
 
-#            embed = Embed(title='Estou Online!',description='Agora voce pode usar o bot como quiser!', colour=0x009900, timestamp=datetime.utcnow())
-#            fields = [('Versão',self.VERSION,False),
-#            ('Ainda em Desenvolvimento','Estamos trabalhando arduamente para que seja finalizado logo',False),
-#            ('Contato', 'Chama no pv para reportar um bug ou tirar uma duvida', False)]
-#            for name,value, inline in fields:
-#                embed.add_field(name=name,value=value,inline=inline)
-#            embed.set_footer(text='Lacottick ainda sera o seu bot de respeito...')
-#            embed.set_author(name='Lacottick', icon_url='')
-#            embed.set_thumbnail(url='')
+            embed = Embed(title='Estou Online!',description='Agora voce pode usar o bot como quiser!', colour=0x009900, timestamp=datetime.utcnow())
+            fields = [('Versão',self.VERSION,False),
+            ('Ainda em Desenvolvimento','Estamos trabalhando arduamente para que seja finalizado logo',False),
+            ('Host','heroku.com',False)
+            ('Contato', 'Chama no pv para reportar um bug ou tirar uma duvida', False)]
+            for name,value, inline in fields:
+                embed.add_field(name=name,value=value,inline=inline)
+            embed.set_footer(text='Lacottick ainda sera o seu bot de respeito...')
+            embed.set_author(name='Lacottick', icon_url='')
+            embed.set_thumbnail(url='https://github.com/GustavoRafaelSoares/Lacottick/blob/main/data/images/icon.png')
 #            embed.set_image(url='')
-#            await channel.send(embed=embed)
+            await channel.send(embed=embed)
 
 #            await channel.send(file=File('./data/images/icon.png'))
 
