@@ -33,7 +33,7 @@ def close():
 def fiel(command, *values):
     cur.execute(command, tuple(values))
 
-    if (fetch := cur.fetchone()) is not None:
+    if (fetch = cur.fetchone()) is not None:
         return fetch[0]
 
 def records(command, *values):
