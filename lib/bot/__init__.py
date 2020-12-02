@@ -67,7 +67,7 @@ class Bot(BotBase):
             embed = Embed(title='Estou Online!',description='Agora voce pode usar o bot como quiser!', colour=0x009900, timestamp=datetime.utcnow())
             fields = [('Versão',self.VERSION,False),
             ('Ainda em Desenvolvimento','Estamos trabalhando arduamente para que seja finalizado logo',False),
-            ('Host','heroku.com',False)
+            ('Host','heroku.com',False),
             ('Contato', 'Chama no pv para reportar um bug ou tirar uma duvida', False)]
             for name,value, inline in fields:
                 embed.add_field(name=name,value=value,inline=inline)
