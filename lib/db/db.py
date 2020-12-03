@@ -24,7 +24,7 @@ def autosave(sched):
     sched.add_job(commit, CronTrigger(second=0)) #a cada minuto, para hora coloca-se o minute=0 e second=0
 
 def commit():
-    print('commiting...')
+    #print('commiting...')
     cxn.commit()
 
 def close():
