@@ -1,6 +1,7 @@
 from asyncio import sleep
 from datetime import datetime
 from glob import glob
+import os
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -12,7 +13,7 @@ from ..db import db
 
 PREFIX = 'l.'
 OWNER_IDS = [543121839988408334]
-COGS = [path.split('\\')[-1][:-3] for path in glob('./lib/cogs/*.py')]
+COGS = [path.split(os.sep)[-1][:-3] for path in glob('./lib/cogs/*.py')]
 
 class Ready(object):
     def __init__(self):
