@@ -1,6 +1,6 @@
 import random
-import discord
 from discord.ext.commands import Cog
+from discord.ext.commands import command
 
 class Interacoes(Cog):
     def __init__(self, bot):
@@ -11,9 +11,9 @@ class Interacoes(Cog):
     async def on_ready(self):
         if not self.bot.ready:
             self.bot.cogs_ready.ready_up('interacoes')
-'''
-    @Cog.command()
-    async def duvida(self, ctx, *, pergunta):
+
+    @command(name='Duvida', aliases=['duvida'])
+    async def duvida(self, ctx, *,die_string: str):
         respostas = ["É certo.",
             "É decididamente assim.",
             "Sem dúvida.",
@@ -36,12 +36,7 @@ class Interacoes(Cog):
             "Minhas fontes dizem não.",
             "Pespectica não muito boa.",
             "Muito duvidoso."]
-        await ctx.send(f'Duvida: {pergunta}\nResposta: {random.choice(respostas)}')
+        await ctx.send(f'Duvida: {die_string}\nResposta: {random.choice(respostas)}')
 
-    @duvida.error
-    async def duvida_error(self, ctx, error):
-        if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send('Depois do comando tem que ter a duvida meu caro. Se não não tem o que eu responder')
-'''
 def setup(bot):
     bot.add_cog(Interacoes(bot))

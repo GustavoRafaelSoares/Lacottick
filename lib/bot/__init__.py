@@ -43,7 +43,7 @@ class Bot(BotBase):
 
     def setup(self):
         for cog in COGS:
-            self.load_extension(f"lib.cogs.{cog}")
+            self.load_extension(f'lib.cogs.{cog}')
             print(f'    cog: {cog} - carregado')
         print('setup completo')
 
@@ -76,7 +76,7 @@ class Bot(BotBase):
         raise
 
     async def on_command_error(self, ctx, exc):
-        if isinstance(exc, commandNotFound):
+        if isinstance(exc, CommandNotFound):
             pass
         elif hasattr(exc, 'original'):
             raise exc.original
@@ -100,7 +100,7 @@ class Bot(BotBase):
                 embed.add_field(name=name,value=value,inline=inline)
             embed.set_footer(text='Lacottick ainda sera o seu bot de respeito...')
             embed.set_author(name='Lacottick', icon_url='')
-            embed.set_thumbnail(url='https://github.com/GustavoRafaelSoares/Lacottick/blob/main/data/images/icon.png')
+            embed.set_thumbnail(url='')
 #            embed.set_image(url='')
             await self.stdout.send(embed=embed)
 
@@ -114,6 +114,7 @@ class Bot(BotBase):
             print('lacottick reconectado')
 
     async def on_message(self, message):
-        pass
+        if not message.author.bot:
+            await self.process_commands(message)
 
 bot = Bot()
