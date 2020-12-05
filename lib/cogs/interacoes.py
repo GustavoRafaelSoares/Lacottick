@@ -1,7 +1,7 @@
 import random
 from typing import Optional
-
-from discord import Member
+from datetime import datetime
+from discord import Member, Embed
 from discord.ext.commands import Cog
 from discord.ext.commands import command
 
@@ -41,10 +41,12 @@ class Interacoes(Cog):
             "Muito duvidoso."]
         await ctx.send(f'Duvida: {die_string}\nResposta: {random.choice(respostas)}')
 
-    @command(name='Mandar_Recado', aliases=['Recado','recado'])
-    async def recado(self, ctx, member: Member, *, message: Optional[str] = "Bom dia"):
+    @command(name='Mandar_Recado', aliases=['Recado','recado','Mensagem','mensagem'])
+    async def mensagem(self, ctx, member: Member, *, message: Optional[str] = "Bom dia"):
         await ctx.message.delete()
-        await ctx.send(f"{ctx.author.display_name} mandou um recado para {member.mention}: {message}")
+        await ctx.send(f'{member.mention}')
+        embed = Embed(title=f"{ctx.author.display_name} mandou um recado para {member.display_name}", description=f'{message}', colour=0x009900, timestamp=datetime.utcnow())
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Interacoes(bot))
