@@ -66,8 +66,8 @@ class Bot(BotBase):
         if ctx.command is not None and ctx.guild is not None:
             if self.ready:
                 await self.invoke(ctx)
-        else:
-            await ctx.send('Ainda não estou pronto para receber comandos, espere alguns segundos...')
+            else:
+                await ctx.send('Ainda não estou pronto para receber comandos, espere alguns segundos...')
 
     async def rules_reminder(self):
         embed = Embed(title='Ei você',description='Lembre-se das regras!', colour=0x009900, timestamp=datetime.utcnow())

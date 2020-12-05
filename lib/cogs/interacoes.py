@@ -1,7 +1,7 @@
 import random
 from typing import Optional
 
-from discord import Menber
+from discord import Member
 from discord.ext.commands import Cog
 from discord.ext.commands import command
 
@@ -41,10 +41,10 @@ class Interacoes(Cog):
             "Muito duvidoso."]
         await ctx.send(f'Duvida: {die_string}\nResposta: {random.choice(respostas)}')
 
-        @command(name='Mandar_Recado', aliases=['Recado','recado'])
-        async def recado(self, ctx, member: Member, *, message: Optional[str] = "Bom dia"):
-            await ctx.message.delete()
-            await ctx.send(f"{ctx.author.display_name} mandou um Recado para {member.mention}: {message}")
+    @command(name='Mandar_Recado', aliases=['Recado','recado'])
+    async def recado(self, ctx, member: Member, *, message: Optional[str] = "Bom dia"):
+        await ctx.message.delete()
+        await ctx.send(f"{ctx.author.display_name} mandou um recado para {member.mention}: {message}")
 
 def setup(bot):
     bot.add_cog(Interacoes(bot))
