@@ -7,6 +7,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import CommandNotFound
+from discord.ext.commands import Context
 from discord import Embed, File
 from discord import Intents
 from ..db import db
@@ -59,6 +60,14 @@ class Bot(BotBase):
 
         print('Lacottick esta executando...')
         super().run(self.TOKEN, reconnect=True)
+
+    async def process_commands(self, message):
+        ctx  = await self.get_context(message, cls=Context)
+        if ctx.command is not None and ctx.guild is not None:
+            if self.ready:
+                await self.invoke(ctx)
+        else:
+            await ctx.send('Ainda não estou pronto para receber comandos, espere alguns segundos...')
 
     async def rules_reminder(self):
         embed = Embed(title='Ei você',description='Lembre-se das regras!', colour=0x009900, timestamp=datetime.utcnow())
