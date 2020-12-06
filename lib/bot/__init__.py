@@ -6,15 +6,18 @@ import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import CommandNotFound
+from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument)
 from discord.ext.commands import Context
+from discord.errors import HTTPException, Forbidden
 from discord import Embed, File
 from discord import Intents
+
 from ..db import db
 
 PREFIX = 'l.'
 OWNER_IDS = [543121839988408334]
 COGS = [path.split(os.sep)[-1][:-3] for path in glob('./lib/cogs/*.py')]
+IGNORE_EXCEPTION = (CommandNotFound, BadArgument)
 
 class Ready(object):
     def __init__(self):
@@ -82,16 +85,24 @@ class Bot(BotBase):
     async def on_error(self, err, *args, **kwargs):
         if err == 'on_command_error':
             await args[0].send('Isso deve estar errado...')
+
         await self.stdout.send('Um erro ocorreu durante a execução...')
         raise
 
     async def on_command_error(self, ctx, exc):
-        if isinstance(exc, CommandNotFound):
+        if any([isinstance(exc, error) for error in IGNORE_EXCEPTION]):
             pass
+        elif isinstance(exc, MissingRequiredArgument):
+            await ctx.send('Um ou mais argumentos são requeridos para esta ação')
+        elif isinstance(exc.original, HTTPException):
+            await cxt.send('Não é possivel enviar mensagens')
+        elif isinstance(exc.origianl, Forbidden):
+            await cxt.send('Não tenho as permissões necessarias')
         elif hasattr(exc, 'original'):
             raise exc.original
         else:
             raise exc
+
     async def on_ready(self):
         if not self.ready:
             self.guild = self.get_guild(782303967325192230)

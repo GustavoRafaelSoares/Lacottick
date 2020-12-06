@@ -17,11 +17,11 @@ class Rpg(Cog):
     async def roll_dice(self, ctx, die_string: str):
         dice, value = (int(term) for term in die_string.split('d'))
         rolls = [random.randint(1, value) for i in range(dice)]
-
-        result = (' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')
-
-        await ctx.send(result)
-
+        if dice <= 255 and value <= 255:
+            result = (' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')
+            await ctx.send(result)
+        else:
+            await ctx.send('Resultado muito grande, Tente um numero menor!')
 
 def setup(bot):
     bot.add_cog(Rpg(bot))
