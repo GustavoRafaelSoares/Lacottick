@@ -3,8 +3,8 @@ from typing import Optional
 from datetime import datetime
 
 from discord import Member, Embed
-from discord.ext.commands import Cog
-from discord.ext.commands import command
+from discord.ext.commands import Cog, BucketType
+from discord.ext.commands import command, cooldown
 from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument)
 from discord.errors import HTTPException, Forbidden
 
@@ -20,6 +20,7 @@ class Interacoes(Cog):
             self.bot.cogs_ready.ready_up('interacoes')
 
     @command(name='Duvida', aliases=['duvida'])
+    @cooldown(2, 60, BucketType.user)
     async def duvida(self, ctx, *,die_string: str):
         respostas = ["É certo.",
             "É decididamente assim.",
@@ -42,7 +43,15 @@ class Interacoes(Cog):
             "Não.",
             "Minhas fontes dizem não.",
             "Perspectica não muito boa.",
-            "Muito duvidoso."]
+            "Muito duvidoso.",
+            "ta mec",
+            "trotos",
+            "é troll",
+            "dale, dele, doly",
+            "Quem sabe né...",
+            "Duvido",
+            "Duvidoso",
+            "Duvido Muito"]
         await ctx.send(f'Duvida: {die_string}\nResposta: {random.choice(respostas)}')
 
     @duvida.error

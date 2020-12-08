@@ -6,7 +6,7 @@ import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument)
+from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument, CommandOnCooldown)
 from discord.ext.commands import Context
 from discord.errors import HTTPException, Forbidden
 from discord import Embed, File
@@ -92,6 +92,8 @@ class Bot(BotBase):
     async def on_command_error(self, ctx, exc):
         if any([isinstance(exc, error) for error in IGNORE_EXCEPTION]):
             pass
+        elif isinstance(exc, CommandOnCooldown):
+            await ctx.send(f'O comando esta em cooldown, tente denovo em: {exc.retry_after:,.2f} segundos.')
         elif isinstance(exc, MissingRequiredArgument):
             await ctx.send('Um ou mais argumentos são requeridos para esta ação')
         elif isinstance(exc.original, HTTPException):
