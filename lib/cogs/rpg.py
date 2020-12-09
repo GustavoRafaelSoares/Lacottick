@@ -13,9 +13,9 @@ class Rpg(Cog):
             self.bot.cogs_ready.ready_up('rpg')
 
 
-    @command(name='Rolar_Dado', aliases=['d','dado','roll','r'])
-    async def roll_dice(self, ctx, die_string: str):
-        dice, value = (int(term) for term in die_string.split('d'))
+    @command(name='Rolar_Dado', aliases=['d'],brief="Roda a quantidade pedida de dados e ja apresenta o valor somado deles")
+    async def roll_dice(self, ctx, dados: str):
+        dice, value = (int(term) for term in dados.split('d'))
         rolls = [random.randint(1, value) for i in range(dice)]
         if dice <= 255 and value <= 255:
             result = (' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')

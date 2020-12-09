@@ -98,7 +98,7 @@ class Bot(BotBase):
             await ctx.send('Um ou mais argumentos são requeridos para esta ação')
         elif isinstance(exc.original, HTTPException):
             await cxt.send('Não é possivel enviar mensagens')
-        elif isinstance(exc.origianl, Forbidden):
+        elif isinstance(exc.original, Forbidden):
             await cxt.send('Não tenho as permissões necessarias')
         elif hasattr(exc, 'original'):
             raise exc.original
@@ -115,7 +115,7 @@ class Bot(BotBase):
             await self.stdout.send('Estou Online!')
 
             embed = Embed(title='Estou Online!',description='Agora voce pode usar o bot como quiser!', colour=0x009900, timestamp=datetime.utcnow())
-            fields = [('Versão',self.VERSION,False),
+            fields = [('Versão',f'`{self.VERSION}`',False),
             ('Ainda em Desenvolvimento','Estamos trabalhando arduamente para que seja finalizado logo',False),
             ('Host','heroku.com',False),
             ('Contato', 'Chama no pv para reportar um bug ou tirar uma duvida', False)]
@@ -123,7 +123,7 @@ class Bot(BotBase):
                 embed.add_field(name=name,value=value,inline=inline)
             embed.set_footer(text='Lacottick ainda sera o seu bot de respeito...')
             embed.set_author(name='Lacottick', icon_url='')
-            embed.set_thumbnail(url='')
+#            embed.set_thumbnail(url='')
 #            embed.set_image(url='')
             await self.stdout.send(embed=embed)
 

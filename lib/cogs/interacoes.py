@@ -19,9 +19,9 @@ class Interacoes(Cog):
         if not self.bot.ready:
             self.bot.cogs_ready.ready_up('interacoes')
 
-    @command(name='Duvida', aliases=['duvida'])
+    @command(name='Duvida', aliases=['duvida'],brief="Este comando retorna uma resposta para sua duvida")
     @cooldown(2, 60, BucketType.user)
-    async def duvida(self, ctx, *,die_string: str):
+    async def duvida(self, ctx, *,duvida: str):
         respostas = ["É certo.",
             "É decididamente assim.",
             "Sem dúvida.",
@@ -52,18 +52,18 @@ class Interacoes(Cog):
             "Duvido",
             "Duvidoso",
             "Duvido Muito"]
-        await ctx.send(f'Duvida: {die_string}\nResposta: {random.choice(respostas)}')
+        await ctx.send(f'Duvida: {duvida}\nResposta: {random.choice(respostas)}')
 
     @duvida.error
     async def duvida_error(self, ctx, exc):
         if isinstance(exc, MissingRequiredArgument):
             await ctx.send('É necessario ter uma duvida após o comando, entende?')
 
-    @command(name='Mandar_Recado', aliases=['Recado','recado','Mensagem','mensagem'])
-    async def mensagem(self, ctx, member: Member, *, message: Optional[str] = "Bom dia"):
+    @command(name='Mandar_Recado', aliases=['recado'], brief="Este comando marca a pessoa e a apresenta a mensagem")
+    async def mensagem(self, ctx, member: Member, *, menssagem: Optional[str] = "Bom dia"):
         await ctx.message.delete()
         await ctx.send(f'{member.mention}')
-        embed = Embed(title=f"{ctx.author.display_name} mandou um recado para {member.display_name}", description=f'{message}', colour=0x009900, timestamp=datetime.utcnow())
+        embed = Embed(title=f"{ctx.author.display_name} mandou um recado para {member.display_name}", description=f'{menssagem}', colour=0x009900, timestamp=datetime.utcnow())
         await ctx.send(embed=embed)
 
     @mensagem.error
