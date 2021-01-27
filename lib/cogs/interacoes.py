@@ -25,19 +25,21 @@ class Interacoes(Cog):
         respostas = ["É certo.",
             "É decididamente assim.",
             "Sem dúvida.",
+            "Pode ser",
+            "Dizem que sim",
+            "Nicolinos me proibiu de dar esta resposta",
             "Sim definitivamente.",
-            "Você pode contar com ele.",
+            "Você pode contar com isso.",
+            "Você pode contar comigo.",
             "A meu ver, sim.",
             "Provavelmente.",
             "uma boa perspectiva.",
             "Sim.",
             "Sinais apontam que sim.",
-            "Resposta nebulosa, tente novamente.",
-            "Pergunte novamente mais tarde.",
+            "Não to afim de falar sobre isso",
             "Ainda não formei opinião sobre isso.",
             "Melhor não te dizer agora.",
             "Não é possível prever agora.",
-            "Concentre-se e pergunte novamente.",
             "Não conte com isso.",
             "Minha resposta é não.",
             "Não.",
@@ -65,6 +67,16 @@ class Interacoes(Cog):
         await ctx.send(f'{member.mention}')
         embed = Embed(title=f"{ctx.author.display_name} mandou um recado para {member.display_name}", description=f'{menssagem}', colour=0x009900, timestamp=datetime.utcnow())
         await ctx.send(embed=embed)
+
+    @command(name='Pergunta', aliases=[''])
+    async def pergunta(self, ctx, ): #pergunta aleatoria com resposta simpes (sim,não)
+        pass
+
+#interações avançadas nivel ZT, chorar gritar etc..
+#assuntos do momento
+#ia de chat
+#memes aleatorios
+#mensagem de jogando, vendo etc...
 
     @mensagem.error
     async def mensagem_error(self, ctx, exc):

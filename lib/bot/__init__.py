@@ -8,9 +8,11 @@ from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import (CommandNotFound, BadArgument, MissingRequiredArgument, CommandOnCooldown)
 from discord.ext.commands import Context
+from discord.ext.commands import when_mentioned_or
 from discord.errors import HTTPException, Forbidden
 from discord import Embed, File
 from discord import Intents
+
 
 from ..db import db
 
@@ -18,6 +20,12 @@ PREFIX = 'l.'
 OWNER_IDS = [543121839988408334]
 COGS = [path.split(os.sep)[-1][:-3] for path in glob('./lib/cogs/*.py')]
 IGNORE_EXCEPTION = (CommandNotFound, BadArgument)
+
+
+def get_prefix(bot, message):
+    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+    return when_mentioned_or(prefix)(bot, message)
+
 
 class Ready(object):
     def __init__(self):
@@ -41,7 +49,7 @@ class Bot(BotBase):
         db.autosave(self.scheduler)
 
         super().__init__(
-            command_prefix=PREFIX,
+            command_prefix=get_prefix,
             owner_ids=OWNER_IDS,
             intents=Intents.all()
             )
@@ -72,9 +80,11 @@ class Bot(BotBase):
             else:
                 await ctx.send('Ainda não estou pronto para receber comandos, espere alguns segundos...')
 
+    '''
     async def rules_reminder(self):
         embed = Embed(title='Ei você',description='Lembre-se das regras!', colour=0x009900, timestamp=datetime.utcnow())
         await self.stdout.send(embed=embed)
+    '''
 
     async def on_connect(self):
         print('lacottick conectado')
@@ -109,7 +119,7 @@ class Bot(BotBase):
         if not self.ready:
             self.guild = self.get_guild(782303967325192230)
             self.stdout = self.get_channel(784454139040104468)
-            self.scheduler.add_job(self.rules_reminder, CronTrigger(hour=12, minute=0, second=10))
+            #self.scheduler.add_job(self.rules_reminder, CronTrigger(hour=12, minute=0, second=10))
             self.scheduler.start()
 
             await self.stdout.send('Estou Online!')
@@ -129,7 +139,8 @@ class Bot(BotBase):
 
 #            await channel.send(file=File('./data/images/icon.png'))
             while not self.cogs_ready.all_ready():
-                await sleep(0.5)
+                #print('esperando')
+                await sleep(1)
 
             self.ready = True
             print('Lacottick esta pronto')

@@ -23,5 +23,11 @@ class Rpg(Cog):
         else:
             await ctx.send('Resultado muito grande, Tente um numero menor!')
 
+#melhorar a rolagem de dados, soma de atributos
+#mostrar o nome de quem rodou antes do resultado
+#adicionar consulta com o site
+#adicionar lembrete de datas de rpg
+
+
 def setup(bot):
     bot.add_cog(Rpg(bot))

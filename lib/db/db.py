@@ -30,13 +30,14 @@ def commit():
 def close():
     cxn.close()
 
-def fiel(command, *values):
+def field(command, *values):
     cur.execute(command, tuple(values))
-    fetch : cur.fetchone()
+    fetch = cur.fetchone()
     if (fetch) is not None:
+        print(fetch[0])
         return fetch[0]
 
-def records(command, *values):
+def record(command, *values):
     cur.execute(command, tuple(values))
 
     return cur.fetchone()
