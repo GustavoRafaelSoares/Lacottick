@@ -34,7 +34,7 @@ def field(command, *values):
     cur.execute(command, tuple(values))
     fetch = cur.fetchone()
     if (fetch) is not None:
-        print(fetch[0])
+        #print(fetch[0])
         return fetch[0]
 
 def record(command, *values):

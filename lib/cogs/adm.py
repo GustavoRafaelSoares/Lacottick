@@ -1,3 +1,4 @@
+from discord import Forbidden
 from discord.ext.commands import Cog
 from discord.ext.commands import command
 from discord.ext.commands import has_permissions
@@ -29,11 +30,18 @@ class Adm(Cog):
 
     @Cog.listener()
     async def on_member_join(self, member):
-        pass
+        db.execute('INSERT INTO exp (UserID) VALUES (?)', member.id)
+        await self.bot.get_channel(782589531035140096).send(f'Bem Vindo a **{member.guild.name}** {member.mention}! Va para <#784454139040104468> para conversar!')
+        try:
+            await member.send(f'Bem vindo a **{member.guild.name}**! aproveite os servidor!')
+        except Forbidden:
+            pass
 
+        await member.add_roles(member.guild.get_role(803981773133971456))
     @Cog.listener()
     async def on_member_remove(self, member):
-        pass
+        db.execute('DELETE FROM exp WHERE UserID = ?', member.id)
+        await self.bot.get_channel(782589531035140096).send(f'O usuario {member.display_name} saiu do servidor.')
 
 
 
