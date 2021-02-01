@@ -23,21 +23,21 @@ class Logs(Cog):
         db.execute('INSERT INTO exp (UserID) VALUES (?)', member.id)
         await self.log_channel.send(f'Bem Vindo a **{member.guild.name}** {member.mention}! Va para <#784454139040104468> para conversar!')
         try:
-            await member.send(f'Bem vindo a **{member.guild.name}**! aproveite os servidor!')
+            await member.send(f'Bem vindo a **{member.guild.name}**! aproveite o servidor!')
         except Forbidden:
             pass
 
-        await member.add_roles(member.guild.get_role(803981773133971456))
+        await member.add_roles(member.guild.get_role(805585640271118367))
     @Cog.listener()
     async def on_member_remove(self, member):
         db.execute('DELETE FROM exp WHERE UserID = ?', member.id)
         await self.log_channel.send(f'O usuario {member.display_name} saiu do servidor.')
 
-    @cog.listener()
+    @Cog.listener()
     async def on_user_update(self, before, after):
         if before.name != after.name:
             embed = Embed(title='Atualização de usuario',
-                          description='Alteração de Nome',
+                          description='Alteração de nome',
                           colour=after.colour,
                           timestamp=datetime.utcnow())
             fields = [("Antigo", before.name, False),
@@ -87,16 +87,47 @@ class Logs(Cog):
 
             await self.log_channel.send(embed=embed)
 
+        elif before.roles != after.roles:
+            embed = Embed(title='Atualização de usuario',
+                          description='Alteração de permissões',
+                          colour=after.colour,
+                          timestamp=datetime.utcnow())
+            fields = [("Antigas", ','.join([r.mention for r in before.roles]), False),
+                      ("Novas", ','.join([r.mention for r in after.roles]), False)]
+
+            for name, value, inline in fields:
+                embed.add_field(name=name, value=value, inline=inline)
+
+            await self.log_channel.send(embed=embed)
 
     @Cog.listener()
     async def on_message_edit(self, before, after):
         if not after.author.bot:
-            pass
+            if before.content != after.content:
+                embed = Embed(title='Edição de mensagem',
+                              colour=after.author.colour,
+                              timestamp=datetime.utcnow())
+                fields = [("Antiga", before.content, False),
+                          ("Nova", after.content, False)]
+
+                for name, value, inline in fields:
+                    embed.add_field(name=name, value=value, inline=inline)
+
+                await self.log_channel.send(embed=embed)
 
     @Cog.listener()
-    async def on_message_delete(self, before, after):
-        if not after.author.bot:
-            pass
+    async def on_message_delete(self, message):
+        if not message.author.bot:
+            embed = Embed(title='Mensagem Apagada',
+                          description=f'Apagada por: {message.author.display_name}',
+                          colour=message.author.colour,
+                          timestamp=datetime.utcnow())
+            fields = [("Mensagem", message.content, False)]
+
+            for name, value, inline in fields:
+                embed.add_field(name=name, value=value, inline=inline)
+
+            await self.log_channel.send(embed=embed)
 
 
 
